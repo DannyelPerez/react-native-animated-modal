@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign, no-unused-vars */
 import React, { Component, PropTypes } from 'react'
-import { Dimensions, Modal } from 'react-native'
-import { View } from 'react-native-animatable'
+import { Dimensions, Modal, TouchableWithoutFeedback , View } from 'react-native'
+var ViewAnimatable = require('react-native-animatable').View;
 
 import styles from './index.style.js'
 
@@ -59,7 +59,7 @@ export class AnimatedModal extends Component {
   }
 
   _open = () => {
-    this.backdropRef.transitionTo({ opacity: this.props.backdropOpacity }, this.props.backdropTransitionInTiming)
+    // this.backdropRef.transitionTo({ opacity: this.props.backdropOpacity }, this.props.backdropTransitionInTiming)
     this.contentRef[this.props.animationIn](this.props.animationInTiming)
       .then(() => {
         this.props.onModalShow()
@@ -67,7 +67,7 @@ export class AnimatedModal extends Component {
   }
 
   _close = async () => {
-    this.backdropRef.transitionTo({ opacity: 0 }, this.props.backdropTransitionOutTiming)
+    // this.backdropRef.transitionTo({ opacity: 0 }, this.props.backdropTransitionOutTiming)
     this.contentRef[this.props.animationOut](this.props.animationOutTiming)
       .then(() => {
         this.setState({ isVisible: false })
@@ -96,7 +96,8 @@ export class AnimatedModal extends Component {
         onRequestClose={() => null}
         {...otherProps}
       >
-        <View
+        <TouchableWithoutFeedback style = { { justifyContent:'center', alignItems:'center'} }  onPress={()=>{ console.log( "content" );}}>
+          <ViewAnimatable
           onLayout={this._handleLayout}
           ref={(ref) => this.backdropRef = ref}
           style={[
@@ -104,12 +105,14 @@ export class AnimatedModal extends Component {
             { backgroundColor: backdropColor, width: deviceWidth, height: deviceHeight }
           ]}
         />
-        <View
+        </TouchableWithoutFeedback >
+        <View pointerEvents='box-none'  style = { {flex:1,justifyContent:'center', alignItems:'center'} } >
+          <ViewAnimatable
           ref={(ref) => this.contentRef = ref}
-          style={[{ margin: deviceWidth * 0.05 }, styles.content, style]}
-          {...otherProps}
-        >
+          style={[{  }, styles.content, style]}
+          {...otherProps}>
           {children}
+        </ViewAnimatable>
         </View>
       </Modal>
     )
