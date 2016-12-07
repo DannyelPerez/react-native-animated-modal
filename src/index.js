@@ -93,10 +93,10 @@ export class AnimatedModal extends Component {
         transparent={true}
         animationType={'none'}
         visible={this.state.isVisible}
-        onRequestClose={() => null}
+        onRequestClose={this._close}
         {...otherProps}
       >
-        <TouchableWithoutFeedback style = { { justifyContent:'center', alignItems:'center'} }  onPress={()=>{ console.log( "content" );}}>
+        <TouchableWithoutFeedback style = { { justifyContent:'center', alignItems:'center'} }  onPress={this._close}>
           <ViewAnimatable
           onLayout={this._handleLayout}
           ref={(ref) => this.backdropRef = ref}
