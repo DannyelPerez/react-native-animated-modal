@@ -19,6 +19,7 @@
   "author": "Mazzarolo Matteo",
   "license": "ISC",
   "dependencies": {
+    "prop-types": "^15.6.2",
     "react-native-animatable": "^0.6.1"
   },
   "devDependencies": {
